@@ -1,87 +1,78 @@
-\documentclass[17pt]{extbook} % 14, 17, 20
-\usepackage{cmap} % Для кодировки PDF
-\usepackage[utf8]{inputenc} % Кодировка входа
-\usepackage[encoding,filenameencoding=utf8]{grffile} %Нормально читаем кодировку файловой системы
-\usepackage[T2A]{fontenc} % Кодировка выхода
-\usepackage[russian]{babel} % Локаль
-\usepackage{pscyr} % Крутые русские шрифты (http://scon155.phys.msu.su/~swan/cyrtug2000.pdf)
-\usepackage[babel=true]{microtype} % Точный подгон текста
-\usepackage[paperwidth=210mm, paperheight=210mm,includefoot]{geometry} % Геометрия
-\geometry{margin=2cm}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SadRobo Comicbook
+% Version 0.1 (08/05/16)
+%
+% This template has been downloaded from:
+% https://github.com/Himura2la/SadRobo
+%
+% Original author:
+% SadBobo Team
+%
+% License:
+% SadRobo License (А если серьёзно, какая у нас лицензия?)
+% 			     (Кто разбирается в лицензиях? Я~--- нет.)
+%           (И кажется у гитхаба есть ограничения с этим.)
+%
+% Важные замечания:
+% Роботу всё ещё грустно.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\makeatletter  % Костыль для кириллицы в input
+\documentclass[17pt]{memoir} % 14, 17, 20
+\input{config.tex} % Загружаем файл с настройками
+
+
+% ------- Костыль для кириллицы в input -------
+
+\makeatletter  
     \let\old@input\input
-    \renewcommand\input[1]{%
-        \expandafter\old@input{"\detokenize{#1}"}%
+    \renewcommand\input[1]{
+        \expandafter\old@input{"\detokenize{#1}"}
     }
 \makeatother
 
-\makeatletter
-\def\input@path{{texts/}}
+
+% ------- Считаем оптимальную ширину картинки  -------
+
+\makeatletter 
+\def \maxwidth{
+	\ifdim\Gin@nat@width>\linewidth
+		\linewidth
+	\else
+		\Gin@nat@width
+	\fi}
 \makeatother
 
-\newcommand{\inputText}{\input {texts/}}
 
-\usepackage{graphicx} % Картинки
-\graphicspath{{pictures/}}
-\DeclareGraphicsExtensions{.pdf,.png,.jpg}
+% ------- Робо-макросы ------- 
 
-\frenchspacing % Одинарный пробел в конце предложений
-\renewcommand{\familydefault}{far} % Шрифт (tex\latex\pscyr\pscyr.sty)
+\newcommand\R{\par\noindent---~}  % Маркер робота
+\newcommand\X{\par\noindent---~}  % Маркер собеседника
 
+\newenvironment{dialog} % Пространство диалога
+{  } % Выполняется в начале
+{  } % Выполняется в конце
 
-\usepackage{fancyhdr} % Колонтитулы
-\pagestyle{fancy}
-\fancyhf{} 			% Очистить
-\cfoot{\thepage}	% Добавить номер
-\renewcommand{\headrulewidth}{0pt} % Без линии
-\fancypagestyle{plain}{ % Для страниц с заголовками раздела chapter
-	\fancyhf{}
-	\cfoot{\thepage}	% Добавить номер
+\newenvironment{monolog} % Пространство размышлений
+{ \begin{quote}\itshape } % Выполняется в начале
+{ \end{quote} } % Выполняется в конце
+
+\newcommand{\newdialog}[2]{
+	\chapter{Робот, которому грустно, и #1}
+	\input{#1}
+	\begin{figure}[p!]
+		\center{\includegraphics[height = 16cm, width = \maxwidth, keepaspectratio]{#1}}
+		\center{#2}
+		%\label{pic:#1}
+	\end{figure}
 }
 
 
 
-\usepackage[explicit]{titlesec}  % Заголовки
-\titleformat{\chapter}[drop]{}{}{0pt}{}
-\titlespacing*{\chapter}{0pt}{-20pt}{0pt}
+\begin{document} % --------------------------------
 
-\titleformat{\part}{}{}{0pt}{}
-\titlespacing*{\part}{0pt}{0pt}{0pt}
-
-
-
-\setlength\parindent{0pt}
-\newcommand\X{\par\noindent---~}
-
-\usepackage{epigraph}
-
-
-\begin{document} %-----------------------------------------------------
-
-\chapter{002. Викинги}
-
-\begin{figure}[p!]
-\center{\includegraphics[scale=0.5]{Викинги.png}}
-\center{Борода лучше её отсутствия}
-\label{fig:image}
-\end{figure}
-
-\epigraph{Робот, которому грустно, и Викинги}
-
-\input{Викинги.txt}
-
-
-\chapter{004. Создатель}
-
-\begin{figure}[p!]
-\center{\includegraphics[scale=1.5]{Создатель.jpg}}
-\center{Все мы порой что-то создаём}
-\label{fig:image}
-\end{figure}
-
-\epigraph{Робот, которому грустно, и Создатель}
-
-\input{texts/Создатель.txt}
+\newdialog{Викинги}{Борода лучше своего отсутствия}
+\newdialog{Создатель}{Все мы что-то создаём}
+\newdialog{Паук}{Тащемта, например}
+\newdialog{Ницше}{Сверхчеловек не нашего времени}
 
 \end{document}

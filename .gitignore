@@ -6,6 +6,7 @@
 *.fls
 *.out
 *.toc
+*.pdf
 
 ## Intermediate documents:
 *.dvi
@@ -185,3 +186,5 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+*.pdf
